@@ -34,7 +34,11 @@ SECRET_KEY = 'django-insecure-jo6z1e*d6)=l@#i6p@&sx+up1ux8l-g**#na7u2ul8)!!+wagp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://pptapi.herokuapp.com']
+ALLOWED_HOSTS = ['https://pptapi.herokuapp.com',
+                 'http://pptapi.herokuapp.com/',
+                 'pptapi.herokuapp.com/',
+                 'pptapi.herokuapp.com',
+                 '.herokuapp.com']
 
 # Application definition
 
