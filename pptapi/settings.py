@@ -34,8 +34,7 @@ SECRET_KEY = 'django-insecure-jo6z1e*d6)=l@#i6p@&sx+up1ux8l-g**#na7u2ul8)!!+wagp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
-
+ALLOWED_HOSTS = ['https://pptapi.herokuapp.com']
 
 # Application definition
 
@@ -64,6 +63,8 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
+CSRF_TRUSTED_ORIGINS = ['https://pptapi.herokuapp.com']
+
 
 ROOT_URLCONF = 'pptapi.urls'
 
