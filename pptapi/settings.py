@@ -18,7 +18,7 @@ DB_HOST = os.environ.get("DB_HOST", "localhost")
 DB_USERNAME = os.environ.get("DB_USERNAME", "postgres")
 DB_PASSWORD = os.environ.get("DB_PASSWORD", "1234")
 DATA_BASE = os.environ.get("DATA_BASE", "profit")
-PORT = os.environ.get("PORT", "5432")
+DB_PORT = os.environ.get("PORT", "5432")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -96,7 +96,7 @@ DATABASES = {
         'USER': DB_USERNAME,
         'PASSWORD': DB_PASSWORD,
         'HOST': DB_HOST,
-        'PORT': PORT,
+        'PORT': DB_PORT,
     }
 }
 
