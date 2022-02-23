@@ -38,7 +38,7 @@ ALLOWED_HOSTS = ['https://pptapi.herokuapp.com',
                  'http://pptapi.herokuapp.com/',
                  'pptapi.herokuapp.com/',
                  'pptapi.herokuapp.com',
-                 '.herokuapp.com']
+                 '.herokuapp.com', 'localhost', '127.0.0.1']
 
 # Application definition
 
