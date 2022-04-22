@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register user</title>
+</head>
+
+<form method="POST" name="Register" action = "{% url 'register' %}">
+    {% csrf_token %}
+  <table width = 50% align = 'center'>
+    <tbody>
+      <tr>
+        <td align="left"> 
+          <div> </div>
+        </td>
+        <td align="left"> 
+          <div><h2>Please input user details:</h2></div>
+        </td>
+     </tr>
+     <tr>
+       <td></td> 
+       <td>
+         {% if messages %}
+      <ul class="messages" align ='center'>
+        {% for message in messages %}
+        <li
+                {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}
+        </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+       </td>		
+     </tr>	 
+     <tr>
+        <td align="left"> 
+          <div>User name</div>
+        </td>
+        <td align="left"> 
+          <div><input type="text" name="Username"  size="50" ></div>
+        </td>
+       </tr>
+     <tr>
+       <td>
+	 <div>Password</div>
+       </td>   			
+       <td align="left"> 
+            <div><input type="password" name="Password"  size="50"></div>
+       </td>
+     </tr>
+     <tr>
+       <td>
+	 <div></div>
+       </td>   			
+       <td align="left"> 
+            <div><input type="submit" value="Register user"></div>
+       </td>
+     </tr>   	
+    </tbody>
+  </table> 
+  </form>
+</html>

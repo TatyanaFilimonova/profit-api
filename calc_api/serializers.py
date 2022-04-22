@@ -1,4 +1,4 @@
-from .models import Vendor, Equipment
+from .models import Vendor, Equipment, Project, Customer, Staff, Stage, Phone
 from rest_framework import serializers
 
 
@@ -19,3 +19,48 @@ class EquipmentSerializer(serializers.ModelSerializer):
                   'jsname',
                   'price_out',
                   'install_price')
+
+
+class PhoneSerializer(serializers.ModelSerializer):
+    model = Phone
+    fields =(
+        'id',
+        'phone'
+    )
+
+
+class CustomerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Customer
+        phone = PhoneSerializer()
+        fields = (
+            'first_name',
+            'second_name',
+            'email',
+            'phone'
+
+        )
+
+
+class StaffSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Staff
+        exclude = ('salary_rate', 'fulltimer' )
+
+
+class StageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Stage
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Project
+        customer = CustomerSerializer()
+        supervisor = StaffSerializer()
+        stage = StageSerializer()
+        fields = ('customer',
+                  'draft_draw',
+                  'supervisor'  
+                  'stage'
+                  )

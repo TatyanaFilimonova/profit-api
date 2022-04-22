@@ -1,0 +1,39 @@
+<div class="modal" id = "newDirectionModal">
+    <div class="modal_background">
+        <div class="modal_inner">
+            <form id="directionForm" name = "directionForm" method="post" >
+                 {% csrf_token %}
+            <h4>Добавьте новое направление автоматизации</h4>
+            <div class="form__group">
+                <input type = 'text'
+                       name="direction"
+                       class = "form_input text"
+                       maxlength="100"
+                       required
+                       value="{{newdirection.direction}}">
+                       Наименование на английском
+                <input type = 'text'
+                       name="direction_name_ua"
+                       class = "form_input text"
+                       maxlength="100"
+                       required
+                       value="{{newdirection.direction_name_ua}}">
+                       Наименование на украинском
+                <input type = 'text'
+                       name="direction_name_ru"
+                       class = "form_input text"
+                       maxlength="100"
+                       required
+                       value="{{newdirection.direction_name_ru}}">
+                       Наименование на украинском
+            </div>
+
+        </form>
+             <div class="center_2_col">
+                <button onclick="addDirection(Event, 'directionForm')" class = "nav-link content_size">Сохранить</button>
+                <button onclick="closeDirectionModal('newDirectionModal')" class = "nav-link content_size">Отменить</button>
+             </div>
+        </div>
+        </div>
+</div>
+

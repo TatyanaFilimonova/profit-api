@@ -1,0 +1,37 @@
+<div class="modal" id = "removeDirectionModal">
+    <div class="modal_background">
+        <div class="modal_inner">
+            <form id="directionDeleteForm" name = "directionDeleteForm" method="post" >
+                 {% csrf_token %}
+            <h4>Удалите направление автоматизации</h4>
+            <div class="form__group">
+                 {% if directions %}
+                    <select class = "form_input"
+                            name = "direction"
+                            id = "directionToDel"
+                    >
+
+                            {% for direction in directions %}
+
+                                <option value="{{direction.id}}"
+                                        id = direction+{{direction.id}}
+                                        {% if direction.direction == row.direction.direction %}
+                                            selected
+                                        {% endif %}
+                                >
+                                        {{direction.direction}}
+                                </option>
+                            {% endfor %}
+                    </select>
+                 {% endif %}
+            </div>
+
+        </form>
+             <div class="center_2_col">
+                <button onclick="delDirection(Event, 'directionDeleteForm')" class = "nav-link content_size">Удалить</button>
+                <button onclick="closeDirectionModal('removeDirectionModal')" class = "nav-link content_size">Отменить</button>
+             </div>
+        </div>
+        </div>
+</div>
+
