@@ -5,25 +5,11 @@ from rest_framework.generics import ListAPIView, mixins, CreateAPIView
 from .serializers import VendorSerializer, EquipmentSerializer, ProjectSerializer
 from .models import Vendor, Equipment, Direction, Project, Customer, Phone, Stage, Staff, ProjectFiles
 from django.contrib.auth.decorators import login_required
-import json
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
-from decimal import *
-from datetime import datetime, timedelta
-from rest_framework.exceptions import NotFound, APIException
-from django.core.exceptions import BadRequest
-#from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import status
+
 from rest_framework.response import Response
 from django.db import transaction
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
-from rest_framework.authtoken.models import Token
-from django.db.models import Sum
-from rest_framework.authtoken.views import ObtainAuthToken
-
-
 class Equipments(ListAPIView):
 
     """GrossBook list with backend filter by transaction class"""
@@ -84,8 +70,10 @@ class CalculateBudget(CreateAPIView):
                                 knx_element = knx_element[0]
                                 install_cost_knx += float(request.data[key]) * float(knx_element['install_price'])
                                 equipment_cost_knx += float(request.data[key]) * float(knx_element['price_out'])
-                            larnitech_element = list(filter(
-                                lambda res: res['jsname'] == key and res['vendor_id'] == 2, result_lst))
+                            larnitech_element = list(
+                                filter( lambda res: res['jsname'] == key and res['vendor_id'] == 2, result_lst))
+                            print("key", key)
+                            print("larnitech_element ", larnitech_element )
                             if len(larnitech_element)>0:
                                 larnitech_element = larnitech_element[0]
                                 install_cost_larnitech += float(request.data[key]) * float(larnitech_element['install_price'])
@@ -129,7 +117,7 @@ class GetFormBody(ListAPIView):
 
         return Response(res_json)
 
-@login_required(login_url='/login')
+@login_required(login_url='/login/')
 def EditEquipment(request):
     queryset = Equipment.objects.select_related('vendor', 'direction').all().order_by('vendor_id',
                                                                                       'direction_id',
@@ -146,7 +134,7 @@ def getLists():
     vendors = Vendor.objects.all()
     return directions, vendors
 
-@login_required(login_url='/login')
+@login_required(login_url='/login/')
 def EditRow(request, id=None):
     directions, vendors = getLists()
     if request.method == "GET":
@@ -185,14 +173,14 @@ def EditRow(request, id=None):
                                        'vendors': vendors},
                               )
 
-@login_required(login_url='/login')
+@login_required(login_url='/login/')
 def DeleteRow(request, id=None):
     if request.method == "GET":
         Equipment.objects.select_related('vendor', 'direction').filter(id=int(id)).delete()
         return redirect('/calc_api/editor/')
 
 
-@login_required(login_url='/login')
+@login_required(login_url='/login/')
 def AddRow(request, data=None):
     directions, vendors = getLists()
     if request.method == "GET":
@@ -232,7 +220,7 @@ def AddRow(request, data=None):
 
 @api_view(('GET', 'POST'))
 @renderer_classes((JSONRenderer,))
-@login_required(login_url='/login')
+@login_required(login_url='/login/')
 def AddDirection(request, id=None):
     if request.method == 'POST':
         body_dict = request.data
@@ -253,7 +241,7 @@ def AddDirection(request, id=None):
 
 @api_view(('POST',))
 @renderer_classes((JSONRenderer,))
-@login_required(login_url='/login')
+@login_required(login_url='/login/')
 def DelDirection(request, id=None):
     if request.method == 'POST':
         body_dict = request.data
@@ -264,6 +252,7 @@ def DelDirection(request, id=None):
         except Exception as e:
             error_text = str(e)
         return Response({'result': error_text}, status=400)
+
 
 @api_view(('POST',))
 @transaction.atomic
@@ -308,4 +297,19 @@ def CreateProject(request):
                     message += 'User with this credentials already registered in the system'
                 if 'Validation' in str(e):
                     message += str(e)
+                if 'unique_phone' in str(e):
+                    message += 'Customer with this phone number already exist'
         return Response({'result': message}, status=(200 if message == '' else 400))
+
+def test_secures(request):
+    if request.method == 'POST':
+        if 'user' in request.POST.keys():
+            user = request.POST['user']
+        else:
+            user = None
+        return render(request,
+                          'test_secure.html',
+                          context={'user': user,},
+                      )
+    else:
+        return render(request, 'test_secure.html')
